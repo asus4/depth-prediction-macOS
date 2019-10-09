@@ -9,7 +9,8 @@
 import Cocoa
 import CoreML
 import Vision
-import Accelerate
+import CoreGraphics
+
 
 class ViewController: NSViewController {
 
@@ -50,16 +51,19 @@ class ViewController: NSViewController {
     }
     
     @IBAction func onExport(_ sender: Any) {
-        print("on export")
+        guard let srcUrl = self.srcImageView.url else {
+            return
+        }
         
         let panel = NSSavePanel()
-        panel.nameFieldStringValue = "depth.png"
+        let filename = srcUrl.deletingPathExtension().lastPathComponent
+        panel.nameFieldStringValue = "\(filename)_depth.png"
+        panel.directoryURL = srcUrl.deletingLastPathComponent()
+        
         panel.begin { (result) in
             if result.rawValue == NSApplication.ModalResponse.OK.rawValue {
-                guard let image = self.dstImageView.image else {
-                    return
-                }
-                guard let url = panel.url else {
+                guard let image = self.dstImageView.image,
+                      let url = panel.url else {
                     return
                 }
                 self.saveToPng(image: image, url: url)
@@ -82,45 +86,49 @@ class ViewController: NSViewController {
     }
     
     private func onVisionRequestComplete(request: VNRequest, error: Error?) {
-        guard let observations = request.results as? [VNCoreMLFeatureValueObservation] else {
-            return
-        }
-        guard let depth = observations.first?.featureValue.multiArrayValue else {
-            return
-        }
         
-        print(depth)
+        guard let observations = request.results as? [VNCoreMLFeatureValueObservation],
+              let depth = observations.first?.featureValue.multiArrayValue else {
+            return
+        }
         
         // Find min max
         let minmax = depth.minmaxValue()
-        print("min max")
-        print(minmax)
         
         // Invert min max
-        guard let image = depth.cgImage(min: minmax.1, max: minmax.0) else {
+        guard let image = depth.cgImage(min: minmax.1, max: minmax.0),
+              let size = self.srcImageView.image?.size else {
             return
         }
         
-        let size = self.srcImageView.image!.size
-        self.dstImageView.image = NSImage.init(cgImage: image, size: size)
+        let resizeImage = NSImage.init(cgImage: image, size: size).resize(size: size)
+        self.dstImageView.image = resizeImage
+    }
+}
+
+extension NSImage {
+    func resize(size: CGSize) -> NSImage {
+        let dstRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        
+        let newImage = NSImage(size: size)
+        newImage.lockFocus()
+        self.draw(in: dstRect)
+        newImage.unlockFocus()
+        newImage.size = size
+        return NSImage(data: newImage.tiffRepresentation!)!
     }
 }
 
 extension MLMultiArray {
+
     public func minmaxValue() -> (Double, Double) {
+        
         if(self.dataType != .double) {
-            fatalError("Non supported")
+            fatalError("only double is supported format")
         }
         
         var minValue = Double.greatestFiniteMagnitude
         var maxValue = -Double.greatestFiniteMagnitude
-        
-        // Fast version
-//        var index: vDSP_Length = 0
-//        let ptr = UnsafeMutablePointer<Double>(OpaquePointer(self.dataPointer))
-//        vDSP_maxviD(ptr, vDSP_Stride(-1), &maxValue, &index, vDSP_Length(self.count))
-//        vDSP_minviD(ptr, vDSP_Stride(-1), &minValue, &index, vDSP_Length(self.count))
-        
         
         // Slow version
         for i in 0..<self.count {
