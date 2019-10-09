@@ -11,29 +11,29 @@ import AppKit
 
 class DragDropImageView: NSImageView {
     
+    var url: URL? = nil
     
     public override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        print("draggingEntered")
-        
+//        print("draggingEntered")
         return .copy
     }
 
     public override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        print("draggingUpdated")
+//        print("draggingUpdated")
         return .copy
     }
 
     public override func draggingExited(_ sender: NSDraggingInfo?) {
-        print("draggingExited")
+//        print("draggingExited")
     }
 
     public override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        print("prepareForDragOperation")
+//        print("prepareForDragOperation")
         return true
     }
 
     public override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        print("performDragOperation")
+//        print("performDragOperation")
         
         let pboard = sender.draggingPasteboard
         
@@ -44,25 +44,27 @@ class DragDropImageView: NSImageView {
             return true
         }
         
-        guard let url = NSURL.init(from: pboard) else {
+        guard let url = NSURL.init(from: pboard) as URL? else {
             return true
         }
         
-        self.image = NSImage.init(contentsOf: url as URL)
+        self.image = NSImage.init(contentsOf: url)
+        
+        self.url = url
         
         return true
     }
 
     public override func concludeDragOperation(_ sender: NSDraggingInfo?) {
-        print("concludeDragOperation")
+//        print("concludeDragOperation")
     }
 
     public override func draggingEnded(_ sender: NSDraggingInfo) {
-        print("draggingEnded")
+//        print("draggingEnded")
     }
 
     public override func wantsPeriodicDraggingUpdates() -> Bool {
-        print("wantsPeriodicDraggingUpdates")
+//        print("wantsPeriodicDraggingUpdates")
         return true
     }
 }
