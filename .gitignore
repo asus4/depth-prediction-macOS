@@ -121,4 +121,5 @@ fastlane/test_output
 
 iOSInjectionProject/
 
+*.mlmodel
 
