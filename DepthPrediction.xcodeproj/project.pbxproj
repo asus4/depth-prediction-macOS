@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78081EDE234E16D800408320 /* DragDropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78081EDD234E16D800408320 /* DragDropImageView.swift */; };
 		78DE1C13234E125D003362C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DE1C12234E125D003362C9 /* AppDelegate.swift */; };
 		78DE1C15234E125D003362C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DE1C14234E125D003362C9 /* ViewController.swift */; };
 		78DE1C17234E125E003362C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78DE1C16234E125E003362C9 /* Assets.xcassets */; };
 		78DE1C1A234E125E003362C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78DE1C18234E125E003362C9 /* Main.storyboard */; };
+		78DE1C23234E133A003362C9 /* FCRN.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 78DE1C22234E133A003362C9 /* FCRN.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		78081EDD234E16D800408320 /* DragDropImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDropImageView.swift; sourceTree = "<group>"; };
 		78DE1C0F234E125D003362C9 /* DepthPrediction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DepthPrediction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78DE1C12234E125D003362C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78DE1C14234E125D003362C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -21,6 +24,7 @@
 		78DE1C19234E125E003362C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		78DE1C1B234E125E003362C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78DE1C1C234E125E003362C9 /* DepthPrediction.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DepthPrediction.entitlements; sourceTree = "<group>"; };
+		78DE1C22234E133A003362C9 /* FCRN.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FCRN.mlmodel; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,12 +57,14 @@
 		78DE1C11234E125D003362C9 /* DepthPrediction */ = {
 			isa = PBXGroup;
 			children = (
+				78DE1C22234E133A003362C9 /* FCRN.mlmodel */,
 				78DE1C12234E125D003362C9 /* AppDelegate.swift */,
 				78DE1C14234E125D003362C9 /* ViewController.swift */,
 				78DE1C16234E125E003362C9 /* Assets.xcassets */,
 				78DE1C18234E125E003362C9 /* Main.storyboard */,
 				78DE1C1B234E125E003362C9 /* Info.plist */,
 				78DE1C1C234E125E003362C9 /* DepthPrediction.entitlements */,
+				78081EDD234E16D800408320 /* DragDropImageView.swift */,
 			);
 			path = DepthPrediction;
 			sourceTree = "<group>";
@@ -134,7 +140,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				78DE1C15234E125D003362C9 /* ViewController.swift in Sources */,
+				78DE1C23234E133A003362C9 /* FCRN.mlmodel in Sources */,
 				78DE1C13234E125D003362C9 /* AppDelegate.swift in Sources */,
+				78081EDE234E16D800408320 /* DragDropImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
