@@ -108,9 +108,7 @@ class ViewController: NSViewController {
             guard let url = panel.url else {
                 return
             }
-            print("save trimed image", trimedImage)
             self.saveToPng(image: trimedImage, url: url)
-            print("fafafa save trimed image", trimedImage)
         }
     }
     
