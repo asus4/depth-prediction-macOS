@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		78081EDE234E16D800408320 /* DragDropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78081EDD234E16D800408320 /* DragDropImageView.swift */; };
+		786621F9234F462300ACE516 /* dragdrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 786621F8234F462300ACE516 /* dragdrop.png */; };
 		78DE1C13234E125D003362C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DE1C12234E125D003362C9 /* AppDelegate.swift */; };
 		78DE1C15234E125D003362C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DE1C14234E125D003362C9 /* ViewController.swift */; };
 		78DE1C17234E125E003362C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78DE1C16234E125E003362C9 /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		78081EDD234E16D800408320 /* DragDropImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragDropImageView.swift; sourceTree = "<group>"; };
+		786621F8234F462300ACE516 /* dragdrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dragdrop.png; sourceTree = "<group>"; };
 		78DE1C0F234E125D003362C9 /* DepthPrediction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DepthPrediction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78DE1C12234E125D003362C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78DE1C14234E125D003362C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		786621F7234F462300ACE516 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				786621F8234F462300ACE516 /* dragdrop.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
 		78DE1C06234E125D003362C9 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +93,7 @@
 		78DE1C11234E125D003362C9 /* DepthPrediction */ = {
 			isa = PBXGroup;
 			children = (
+				786621F7234F462300ACE516 /* assets */,
 				78DE1C22234E133A003362C9 /* FCRN.mlmodel */,
 				78DE1C12234E125D003362C9 /* AppDelegate.swift */,
 				78DE1C14234E125D003362C9 /* ViewController.swift */,
@@ -176,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78DE1C17234E125E003362C9 /* Assets.xcassets in Resources */,
+				786621F9234F462300ACE516 /* dragdrop.png in Resources */,
 				78DE1C1A234E125E003362C9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

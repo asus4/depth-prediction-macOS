@@ -50,7 +50,7 @@ class ViewController: NSViewController {
         try? handler.perform([request])
     }
     
-    @IBAction func onExport(_ sender: Any) {
+    @IBAction func onExportDepth(_ sender: Any) {
         guard let srcUrl = self.srcImageView.url else {
             return
         }
@@ -69,6 +69,10 @@ class ViewController: NSViewController {
                 self.saveToPng(image: image, url: url)
             }
         }
+    }
+    
+    @IBAction func onExportTrimed(_ sender: Any) {
+        print("onExportTrimed")
     }
     
     private func saveToPng(image:NSImage, url: URL) {
