@@ -37,12 +37,12 @@ class ViewController: NSViewController {
     }
 
     @IBAction func startProcess(_ sender: Any) {
-        print("start process!!!!")
         
         let request = VNCoreMLRequest(model: self.model, completionHandler: onVisionRequestComplete)
         request.imageCropAndScaleOption = .centerCrop
         
         guard let url = self.srcImageView.url else {
+            print("No source image")
             return
         }
         
@@ -51,7 +51,8 @@ class ViewController: NSViewController {
     }
     
     @IBAction func onExportDepth(_ sender: Any) {
-        guard let srcUrl = self.srcImageView.url else {
+        guard let srcUrl = self.srcImageView.url,
+              let image = self.dstImageView.image else {
             return
         }
         
@@ -61,28 +62,67 @@ class ViewController: NSViewController {
         panel.directoryURL = srcUrl.deletingLastPathComponent()
         
         panel.begin { (result) in
-            if result.rawValue == NSApplication.ModalResponse.OK.rawValue {
-                guard let image = self.dstImageView.image,
-                      let url = panel.url else {
-                    return
-                }
-                self.saveToPng(image: image, url: url)
+            if result.rawValue != NSApplication.ModalResponse.OK.rawValue {
+                return
             }
+            guard let url = panel.url else {
+                return
+            }
+            self.saveToPng(image: image, url: url)
         }
     }
     
     @IBAction func onExportTrimed(_ sender: Any) {
-        print("onExportTrimed")
+        guard let srcUrl = self.srcImageView.url,
+              let image = self.srcImageView.image else {
+            return
+        }
+        
+        let targetAspect: CGFloat = 4.0 / 3.0
+        let imageAspect = image.size.width / image.size.height
+        
+        let rect: CGRect
+        if targetAspect < imageAspect {
+            let w = image.size.height * targetAspect
+            rect = CGRect(x: (image.size.width - w) / 2, y: 0, width: w, height: image.size.height)
+        } else {
+            let h = image.size.width / targetAspect
+            rect = CGRect(x: 0, y: (image.size.height - h) / 2, width: image.size.width, height: h)
+        }
+        
+        print(targetAspect, imageAspect, image.size, rect)
+        
+        let trimedImage = image.trim(rect: rect)
+        
+        print(trimedImage)
+        
+        let panel = NSSavePanel()
+        let filename = srcUrl.deletingPathExtension().lastPathComponent
+        panel.nameFieldStringValue = "\(filename).png"
+        panel.directoryURL = srcUrl.deletingLastPathComponent()
+        
+        panel.begin { (result) in
+            if result.rawValue != NSApplication.ModalResponse.OK.rawValue {
+                return
+            }
+            guard let url = panel.url else {
+                return
+            }
+            print("save trimed image", trimedImage)
+            self.saveToPng(image: trimedImage, url: url)
+            print("fafafa save trimed image", trimedImage)
+        }
     }
     
     private func saveToPng(image:NSImage, url: URL) {
-        // TO png
         // https://stackoverflow.com/questions/17507170/how-to-save-png-file-from-nsimage-retina-issues
-        guard let image = self.dstImageView.image?.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+        
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: [:]) else {
+            print("no cg image")
             return
         }
-        let newRep = NSBitmapImageRep.init(cgImage: image)
-        newRep.size = NSSize(width: image.width, height: image.height)
+        let newRep = NSBitmapImageRep.init(cgImage: cgImage)
+        newRep.size = NSSize(width: cgImage.width, height: cgImage.height)
         guard let data = newRep.representation(using: .png, properties: [:]) else {
             return
         }
@@ -114,12 +154,22 @@ extension NSImage {
     func resize(size: CGSize) -> NSImage {
         let dstRect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
-        let newImage = NSImage(size: size)
-        newImage.lockFocus()
+        let result = NSImage(size: size)
+        result.lockFocus()
         self.draw(in: dstRect)
-        newImage.unlockFocus()
-        newImage.size = size
-        return NSImage(data: newImage.tiffRepresentation!)!
+        result.unlockFocus()
+        return result
+    }
+    
+    func trim(rect: CGRect) -> NSImage {
+        
+        let result = NSImage(size: rect.size)
+        result.lockFocus()
+        
+        let destRect = CGRect(origin: .zero, size: result.size)
+        self.draw(in: destRect, from: rect, operation: .copy, fraction: 1.0)
+        result.unlockFocus()
+        return result
     }
 }
 
